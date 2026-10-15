@@ -13,6 +13,7 @@ import QueryWrapper from "@/components/layout/query-wrapper";
 import { contact as fallbackContact, offices as fallbackOffices } from "@/content/firm";
 import "react-quill-new/dist/quill.snow.css";
 import NextTopLoader from "nextjs-toploader";
+import { FloatingWhatsApp } from "@/components/layout/floating-whatsapp";
 
 const garamond = EB_Garamond({
 	subsets: ["latin"],
@@ -107,6 +108,7 @@ export default async function RootLayout({
 	}));
 	let firmDetails: FirmDetails = {
 		generalEmail: fallbackContact.generalEmail,
+		phones: [...fallbackContact.phones],
 		xUrl: fallbackContact.x,
 	};
 
@@ -141,6 +143,7 @@ export default async function RootLayout({
 					<SiteHeader contact={{ x: firmDetails.xUrl }} />
 					<main>{children}</main>
 					<SiteFooter offices={offices} firmDetails={firmDetails} />
+					<FloatingWhatsApp />
 				</QueryWrapper>
 			</body>
 		</html>

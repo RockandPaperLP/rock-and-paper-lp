@@ -1,6 +1,7 @@
 export type Person = {
   slug: string;
   name: string;
+  title?: string;
   expertise: string[];
   image: string;
   imagePosition?: string;
@@ -43,6 +44,15 @@ export const people: Person[] = [
     ],
   },
 ];
+
+const personTitles: Record<string, string> = {
+  "sulaimon-a-badmus": "Senior Partner",
+  "gideon-sado": "Partner",
+  "gesiye-emi-emiemokumo": "Managing Partner",
+};
+
+export const getPersonTitle = (slug: string) =>
+  personTitles[slug] || "Partner";
 
 export const getPerson = (slug: string) =>
   people.find((person) => person.slug === slug);

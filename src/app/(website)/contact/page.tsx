@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/page-hero";
-import { ContactDetails } from "@/components/contact/contact-details";
+import {
+	ContactDetails,
+	type ContactInfo,
+	type Office,
+} from "@/components/contact/contact-details";
 import { createPageMetadata } from "@/lib/seo";
-import { FirmDetail, Office, PageSection } from "@/generated/prisma/client";
+import { PageSection } from "@/generated/prisma/client";
+import {
+	contact as fallbackContact,
+	offices as fallbackOffices,
+} from "@/content/firm";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -33,12 +41,21 @@ export default async function ContactPage() {
 	const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 	let contents: PageSection[] = [];
-	let offices: Office[] = [];
-	let firmDetail: FirmDetail | null = null;
+	let offices: Office[] = fallbackOffices.map((office) => ({
+		city: office.city,
+		address: [...office.address],
+		image: office.image,
+	}));
+	let firmDetail: ContactInfo = {
+		generalEmail: fallbackContact.generalEmail,
+		partnerEmail: fallbackContact.partnerEmail,
+		phones: [...fallbackContact.phones],
+		hours: fallbackContact.hours,
+	};
 
 	try {
 		const [contentRes, officesRes, firmDetailRes] = await Promise.all([
-			fetch(`${baseUrl}/api/page-content?page=people`),
+			fetch(`${baseUrl}/api/page-content?page=contact`),
 			fetch(`${baseUrl}/api/offices`),
 			fetch(`${baseUrl}/api/firm-detail`),
 		]);
@@ -55,7 +72,7 @@ export default async function ContactPage() {
 
 		if (firmDetailRes.ok) {
 			const json = await firmDetailRes.json();
-			firmDetail = json.data || [];
+			firmDetail = { ...firmDetail, ...(json.data || {}) };
 		}
 	} catch (error) {
 		console.error("Failed to fetch homepage data:", error);
@@ -78,7 +95,7 @@ export default async function ContactPage() {
 					"Contact our Abuja or Lagos office to discuss how we may help with your matter."
 				}
 			/>
-			{firmDetail && <ContactDetails offices={offices} contact={firmDetail} />}
+			<ContactDetails offices={offices} contact={firmDetail} />
 		</>
 	);
 }

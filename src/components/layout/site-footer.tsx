@@ -11,6 +11,7 @@ export type Office = {
 
 export type FirmDetails = {
 	generalEmail?: string;
+	phones?: string[];
 	xUrl?: string;
 };
 
@@ -20,6 +21,8 @@ interface SiteFooterProps {
 }
 
 export function SiteFooter({ offices, firmDetails }: SiteFooterProps) {
+	const primaryPhone = firmDetails?.phones?.[0];
+
 	return (
 		<footer className="bg-ink py-16 text-white sm:py-20">
 			<Container>
@@ -78,6 +81,13 @@ export function SiteFooter({ offices, firmDetails }: SiteFooterProps) {
 								<ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
 							</a>
 						)}
+						{primaryPhone && (
+							<a
+								href={`tel:${primaryPhone.replace(/\s/g, "")}`}
+								className="mt-4 block text-sm text-stone/70 transition-colors hover:text-white">
+								{primaryPhone}
+							</a>
+						)}
 						<div className="mt-8 flex gap-5 text-xs font-bold uppercase tracking-[0.16em] lg:justify-end">
 							{firmDetails?.xUrl && (
 								<a
@@ -88,9 +98,6 @@ export function SiteFooter({ offices, firmDetails }: SiteFooterProps) {
 									X
 								</a>
 							)}
-							<Link href="/articles" className="text-stone/60 hover:text-white">
-								Articles
-							</Link>
 							<Link href="/privacy-policy" className="text-stone/60 hover:text-white">Privacy</Link>
 							<Link href="/contact" className="text-stone/60 hover:text-white">
 								Contact

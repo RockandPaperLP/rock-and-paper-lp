@@ -2,13 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { getPersonTitle } from "@/content/people";
 
 export type Person = {
-	id: string;
+	id?: string;
 	slug: string;
 	name: string;
 	image: string;
-	imagePosition: string;
+	imagePosition?: string | null;
+	title?: string;
 };
 
 interface TeamSectionProps {
@@ -32,7 +34,7 @@ export function PeopleGrid({ people }: TeamSectionProps) {
 									fill
 									sizes="(max-width: 768px) 100vw, 33vw"
 									quality={95}
-									style={{ objectPosition: person.imagePosition }}
+									style={{ objectPosition: person.imagePosition || "50% 50%" }}
 									className="object-cover transition duration-500 group-hover:scale-[1.025]"
 								/>
 							</div>
@@ -42,7 +44,7 @@ export function PeopleGrid({ people }: TeamSectionProps) {
 										{person.name}
 									</h2>
 									<p className="mt-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-taupe">
-										View profile
+										{person.title || getPersonTitle(person.slug)}
 									</p>
 								</div>
 								<ArrowUpRight className="mt-1 size-5 text-ink/40 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-taupe" />

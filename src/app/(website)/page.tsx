@@ -15,6 +15,7 @@ import { ContactCtaSection } from "@/components/home/contact-cta-section";
 import { PageSection } from "@/generated/prisma/client";
 import { createPageMetadata } from "@/lib/seo";
 import { Metadata } from "next";
+import { people as fallbackPeople } from "@/content/people";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -45,7 +46,7 @@ export default async function HomePage() {
 
 	let experiences: Experience[] = [];
 	let practices: Practice[] = [];
-	let people: Person[] = [];
+	let people: Person[] = fallbackPeople;
 	let offices: Office[] = [];
 	let contents: PageSection[] = [];
 
