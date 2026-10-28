@@ -10,7 +10,6 @@ const navItems = [
 	{ href: "/about", label: "About" },
 	{ href: "/expertise", label: "Expertise" },
 	{ href: "/people", label: "People" },
-	{ href: "/privacy-policy", label: "Privacy" },
 	{ href: "/contact", label: "Contact" },
 ];
 
