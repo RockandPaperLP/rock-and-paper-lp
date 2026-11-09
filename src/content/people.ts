@@ -46,7 +46,7 @@ export const people: Person[] = [
 ];
 
 const personTitles: Record<string, string> = {
-  "sulaimon-a-badmus": "Senior Partner",
+  "sulaimon-a-badmus": "Partner",
   "gideon-sado": "Partner",
   "gesiye-emi-emiemokumo": "Managing Partner",
 };
